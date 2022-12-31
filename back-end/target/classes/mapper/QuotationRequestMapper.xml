@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sportscar.sportscar.mapper.QuotationRequestMapper">
+    <insert id="addQuotationRequest" parameterType="com.sportscar.sportscar.bean.Quotation_request">
+        insert into quotation_request values (#{userID},#{rfqID},#{supplierID},#{supplierName},#{materialID},#{amount},#{price},#{date},#{limitedDate},#{state})
+--         insert into quotation_request values (null, #{name}, #{sex}, #{age}, #{entryDate})
+    </insert>
+    <insert id="addQuotationRequestAll">
+        INSERT INTO quotation_request VALUES
+        <foreach collection="list" separator="," item="item">
+            (#{item.userID},#{item.rfqID},#{item.supplierID},#{item.supplierName},#{item.materialID},#{item.amount},#{item.price},#{item.date},#{item.limitedDate},#{item.state})
+        </foreach>
+    </insert>
+    <delete id="deleteQuotationRequestByRfqId" parameterType="string">
+        delete from quotation_request where rfqID = #{rfqID}
+    </delete>
+    <delete id="deleteQuotationRequestByRfqIdSeries" parameterType="java.util.List">
+        delete from quotation_request
+        where (userID, rfqID) in
+        <foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+            (#{item.userID},#{item.rfqID})
+        </foreach>
+    </delete>
+    <select id="showAllQuatationRequest" resultType="com.sportscar.sportscar.bean.Quotation_request">
+        select * from quotation_request where userID=#{userID}
+    </select>
+    <select id="selectQuatationRequestByID" parameterType="java.util.List" resultType="com.sportscar.sportscar.bean.Quotation_request">
+        select * from quotation_request where (userID, rfqID) in
+        <foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+            (#{item.userID},#{item.rfqID})
+        </foreach>
+    </select>
+    <select id="SelectQuatationRequestByField" parameterType="com.sportscar.sportscar.bean.Quotation_request" resultType="com.sportscar.sportscar.bean.Quotation_request">
+        select * from quotation_request where userID=#{userID}
+        <if test="supplierID!=-1">
+            and supplierID=#{supplierID}
+        </if>
+        <if test="materialID!=-1">
+            and materialID=#{materialID}
+        </if>
+        <if test="date!=null">
+            and date=#{date}
+        </if>
+        <if test="limitedDate!=null">
+            and limitedDate=#{limitedDate}
+        </if>
+    </select>
+    <select id="SelectQuatationRequestByState" resultType="com.sportscar.sportscar.bean.Quotation_request">
+        select * from quotation_request where userID=#{userID} and state=0
+    </select>
+    <select id="SelectQuatationRequestByPrimaryKey" resultType="com.sportscar.sportscar.bean.Quotation_request">
+        select * from quotation_request where userID=#{userID} and rfqID=#{rfqID} and supplierID=#{supplierID} and materialID=#{materialID}
+    </select>
+    <update id="updateQuatationRequestStateByPrimaryKey">
+        update quotation_request
+        set state = #{state}
+        where userID = #{userID} and rfqID=#{rfqID} and supplierID=#{supplierID} and materialID=#{materialID}
+    </update>
+    <select id="isFinished" resultType="java.lang.Integer">
+        SELECT 1 FROM quotation_request WHERE userID = #{userID} and rfqID=#{rfqID} and supplierID=#{supplierID} and materialID=#{materialID}
+        and state=1
+    </select>
+
+<!--    <insert id="insertBatch">-->
+<!--        INSERT INTO tb_student (name, age, phone, address, class_id) VALUES-->
+<!--        <foreach collection="list" separator="," item="item">-->
+<!--            (#{item.name},#{item.age},#{item.phone},#{item.address},#{item.classId})-->
+<!--        </foreach>-->
+<!--    </insert>-->
+<!--    <select id="addQuotationRequest" resultType="com.sportscar.sportscar.bean.Comparison">-->
+<!--        SELECT * FROM comparison where userID=#{userID};-->
+<!--    </select>-->
+</mapper>

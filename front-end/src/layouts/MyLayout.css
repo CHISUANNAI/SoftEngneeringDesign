@@ -1,0 +1,41 @@
+.logo {
+    float: left;
+    width: 150px;
+    height: 55px;
+    margin: 5px 20px 5px -30px;
+    background: #FCA311;
+}
+
+.site-layout .site-layout-background {
+    background: #ffffff;
+}
+
+[data-theme="dark"] .site-layout .site-layout-background {
+    background: #000000;
+}
+
+.ant-menu,
+.ant-menu-sub,
+.ant-menu-inline {
+    color: #000000;
+    background-color: #FCA311 !important;
+}
+
+/* // 设置子菜单展开样式 */
+.ant-menu-submenu > .ant-menu {
+  background-color: #FCA311 !important;
+  width: 50px;
+}
+.ant-menu-submenu-title{
+  color: #000000 !important;
+}
+
+.ant-menu-item-selected {
+  background-color: #fdd086!important;
+  color: #ff6700 !important;
+}
+
+.ant-menu-item-active {
+  background-color: #fff !important;
+  color: #ff6700 !important;
+}
